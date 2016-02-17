@@ -27,6 +27,7 @@ public class PrintText : MonoBehaviour {
                 StopAllCoroutines();
                 GameManager.instance.state = "Text";
                 textField.text = GameManager.instance.GetCurrentDialogue();
+                textBack.sizeDelta = new Vector2(textField.preferredWidth + 50, textField.preferredHeight);
             }
         }
     }
@@ -43,7 +44,7 @@ public class PrintText : MonoBehaviour {
         for (int i = 0; i < text.Length; i++)
         {
             textField.text += text[i];
-            textBack.sizeDelta = new Vector2(textField.preferredWidth + 50, 150);
+            textBack.sizeDelta = new Vector2(textField.preferredWidth + 50, textField.preferredHeight);
             yield return new WaitForSeconds(.05f);
         }
         GameManager.instance.writingText = false;
