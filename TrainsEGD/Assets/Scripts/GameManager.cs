@@ -39,15 +39,26 @@ public class GameManager : ScriptableObject {
     public void MyAwake()
     {
         dialogue = new string[] { "Why can't life be fun all the time?",
-                                  "End of Puzzle 1" };
-        puzzleObjects = new GameObject[] {null,
-                                          Resources.Load<GameObject>("Captain Falcon Trophy") };
+                                  "I wonder where this train's going?\n Hopefully somewhere more fun than home...",
+                                  "Mom and Dad make me so angry sometimes...",
+                                  "Will I ever go back? Will I miss home?",
+                                  "I want to go back.",
+                                  "Indirectly suggest war"};
+        puzzleObjects = new GameObject[] {Resources.Load<GameObject>("cloud_teddybear"),
+                                          Resources.Load<GameObject>("cloud_knapsack"),
+                                          Resources.Load<GameObject>("cloud_house")};
 
         textField = GameObject.Find("Text");
         textArea = GameObject.Find("TextArea");
         pText = textField.GetComponent<PrintText>();
 
         pText.StartWriteText(dialogue[currentLevel]);
+        if (currentLevel < puzzleObjects.Length)
+        {
+            currentObject = Instantiate<GameObject>(puzzleObjects[currentLevel]);
+            currentObject.transform.position = new Vector3(550, 208, 66);
+            currentObject.GetComponent<Spin>().StartCloudEnter();
+        }
         //textField.GetComponent<Text>().text = dialogue[currentLevel];
     }
 
@@ -55,22 +66,30 @@ public class GameManager : ScriptableObject {
     {
         state = "Game";
         currentLevel++;
-        if (currentLevel < puzzleObjects.Length)
+        /*if (currentLevel < puzzleObjects.Length)
         {
+            
             currentObject = Instantiate<GameObject>(puzzleObjects[currentLevel]);
-        }
+            //Debug.Break();
+        }*/
         textArea.SetActive(false);
     }
 
     public void CompletePuzzle()
     {
         state = "Writing";
-        Destroy(currentObject);
+        //Destroy(currentObject);
         textArea.SetActive(true);
         if (currentLevel < dialogue.Length)
         {
             pText.StartWriteText(dialogue[currentLevel]);
             //textField.GetComponent<Text>().text = dialogue[currentLevel];
+        }
+        if (currentLevel < puzzleObjects.Length)
+        {
+            currentObject = Instantiate<GameObject>(puzzleObjects[currentLevel]);
+            currentObject.transform.position = new Vector3(550, 208, 66);
+            currentObject.GetComponent<Spin>().StartCloudEnter();
         }
     }
 
