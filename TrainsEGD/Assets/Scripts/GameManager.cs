@@ -55,8 +55,10 @@ public class GameManager : ScriptableObject {
     {
         state = "Game";
         currentLevel++;
-        if(currentLevel < puzzleObjects.Length)
+        if (currentLevel < puzzleObjects.Length)
+        {
             currentObject = Instantiate<GameObject>(puzzleObjects[currentLevel]);
+        }
         textArea.SetActive(false);
     }
 

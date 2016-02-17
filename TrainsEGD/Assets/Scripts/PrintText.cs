@@ -5,10 +5,12 @@ using UnityEngine.UI;
 public class PrintText : MonoBehaviour {
 
     Text textField;
+    RectTransform textBack;
 
 	// Use this for initialization
 	void Start () {
         textField = GetComponent<Text>();
+        textBack = GameObject.Find("Image").GetComponent<RectTransform>();
         GameManager.instance.MyAwake();
 	}
 	
@@ -41,8 +43,10 @@ public class PrintText : MonoBehaviour {
         for (int i = 0; i < text.Length; i++)
         {
             textField.text += text[i];
+            textBack.sizeDelta = new Vector2(textField.preferredWidth + 50, 150);
             yield return new WaitForSeconds(.05f);
         }
         GameManager.instance.writingText = false;
+        GameManager.instance.state = "Text";
     }
 }
