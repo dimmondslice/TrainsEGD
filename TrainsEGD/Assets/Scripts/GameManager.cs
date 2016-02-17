@@ -5,11 +5,12 @@ using UnityEngine.UI;
 public class GameManager : ScriptableObject {
 
 
-    string[] dialogue;
-    GameObject[] puzzleObjects;
+    public string[] dialogue;
+    public GameObject[] puzzleObjects;
     public int currentLevel = 0;
     public string state = "Writing";
     public bool writingText = false;
+    public bool canRotate = false;
 
     GameObject textField;
     GameObject textArea;
@@ -42,11 +43,14 @@ public class GameManager : ScriptableObject {
                                   "I wonder where this train's going?\n Hopefully somewhere more fun than home...",
                                   "Mom and Dad make me so angry sometimes...",
                                   "Will I ever go back? Will I miss home?",
-                                  "I want to go back.",
-                                  "Indirectly suggest war"};
+                                  "I want to go home . . . but I can't",
+                                  "Home is gone.",
+                                  "It was destroyed in the fighting . . . \nJust like everything else"};
         puzzleObjects = new GameObject[] {Resources.Load<GameObject>("cloud_teddybear"),
                                           Resources.Load<GameObject>("cloud_knapsack"),
-                                          Resources.Load<GameObject>("cloud_house")};
+                                          Resources.Load<GameObject>("cloud_house"),
+                                          Resources.Load<GameObject>("cloud_train"),
+                                          Resources.Load<GameObject>("cloud_mushroomcloud")};
 
         textField = GameObject.Find("Text");
         textArea = GameObject.Find("TextArea");
@@ -56,14 +60,17 @@ public class GameManager : ScriptableObject {
         if (currentLevel < puzzleObjects.Length)
         {
             currentObject = Instantiate<GameObject>(puzzleObjects[currentLevel]);
-            currentObject.transform.position = new Vector3(550, 208, 66);
+            currentObject.transform.position = new Vector3(550, 198, 66);
+            canRotate = false;
             currentObject.GetComponent<Spin>().StartCloudEnter();
         }
+        
         //textField.GetComponent<Text>().text = dialogue[currentLevel];
     }
 
     public void NextLevel()
     {
+        //if (state == "Text") 
         state = "Game";
         currentLevel++;
         /*if (currentLevel < puzzleObjects.Length)
@@ -88,7 +95,7 @@ public class GameManager : ScriptableObject {
         if (currentLevel < puzzleObjects.Length)
         {
             currentObject = Instantiate<GameObject>(puzzleObjects[currentLevel]);
-            currentObject.transform.position = new Vector3(550, 208, 66);
+            currentObject.transform.position = new Vector3(550, 198, 66);
             currentObject.GetComponent<Spin>().StartCloudEnter();
         }
     }

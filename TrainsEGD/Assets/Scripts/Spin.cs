@@ -27,24 +27,27 @@ public class Spin : MonoBehaviour {
         //Vector3 eulerAngles = transform.eulerAngles;
 
         //print(Quaternion.Angle(transform.rotation, qAngle));
-
-        if((Quaternion.Angle(transform.rotation, qAngle) < rotationError) && Input.GetAxis("Mouse Y") == 0 && Input.GetAxis("Mouse X") == 0)
+        if (GameManager.instance.state == "Game")
         {
-            GameManager.instance.state = "Solved";
-            StartCoroutine(ShowCorrect());
-            //GameManager.instance.CompletePuzzle();
-            //print("Good");
+            if ((Quaternion.Angle(transform.rotation, qAngle) < rotationError) && Input.GetAxis("Mouse Y") == 0 && Input.GetAxis("Mouse X") == 0)
+            {
+                GameManager.instance.state = "Solved";
+                StartCoroutine(ShowCorrect());
+                //GameManager.instance.CompletePuzzle();
+                //print("Good");
+            }
         }
-        if(Input.GetKeyDown(KeyCode.Mouse0) && GameManager.instance.state == "Solved")
+        if (Input.GetKeyDown(KeyCode.Mouse0) && GameManager.instance.state == "Solved")
         {
             GameManager.instance.state = "Writing";
             StartCoroutine(CloudExit());
             GameManager.instance.CompletePuzzle();
         }
 
+
     }
 	void FixedUpdate () {
-        if (GameManager.instance.state == "Game")
+        if (GameManager.instance.state == "Game" && GameManager.instance.canRotate)
         {
             float x = ((Input.mousePosition.x / Screen.width) -.5f) * 180;
             float y = ((Input.mousePosition.y / Screen.height) - .5f) * 180;
@@ -74,7 +77,7 @@ public class Spin : MonoBehaviour {
         Vector3 startPos = transform.position;
         for (float i = 0; i < 1; i += .01f)
         {
-            transform.position = Vector3.Lerp(startPos, new Vector3(-1000, 208, 66), i);
+            transform.position = Vector3.Lerp(startPos, new Vector3(-1000, 198, 66), i);
             yield return null;
         }
         Destroy(gameObject);
@@ -90,8 +93,12 @@ public class Spin : MonoBehaviour {
         Vector3 startPos = transform.position;
         for (float i = 0; i < 1; i += .01f)
         {
-            transform.position = Vector3.Lerp(startPos, new Vector3(-161, 208, 66), i);
+            transform.position = Vector3.Lerp(startPos, new Vector3(-161, 198, 66), i);
             yield return null;
         }
+        
+        GameManager.instance.canRotate = true;
+        //if(GameManager.instance.state != "Writing" && GameManager.instance.state != "Text")
+            //GameManager.instance.state = "Game";
     }
 }

@@ -25,10 +25,26 @@ public class PrintText : MonoBehaviour {
             else if (GameManager.instance.state == "Writing")
             {
                 StopAllCoroutines();
-                GameManager.instance.state = "Text";
                 textField.text = GameManager.instance.GetCurrentDialogue();
                 textBack.sizeDelta = new Vector2(textField.preferredWidth + 50, textField.preferredHeight);
+                if (GameManager.instance.currentLevel < GameManager.instance.puzzleObjects.Length)
+                {
+                    GameManager.instance.state = "Text";
+
+                }
+                else if (GameManager.instance.currentLevel < GameManager.instance.dialogue.Length)
+                {
+                    GameManager.instance.currentLevel++;
+                    GameManager.instance.state = "End";
+                }
             }
+            else if (GameManager.instance.state == "End")
+            {
+                GameManager.instance.state = "Writing";
+                if (GameManager.instance.currentLevel < GameManager.instance.dialogue.Length)
+                    StartWriteText(GameManager.instance.dialogue[GameManager.instance.currentLevel]);
+            }
+
         }
     }
 
@@ -47,7 +63,16 @@ public class PrintText : MonoBehaviour {
             textBack.sizeDelta = new Vector2(textField.preferredWidth + 50, textField.preferredHeight);
             yield return new WaitForSeconds(.05f);
         }
-        GameManager.instance.writingText = false;
-        GameManager.instance.state = "Text";
+
+        if (GameManager.instance.currentLevel < GameManager.instance.puzzleObjects.Length)
+        {
+            GameManager.instance.writingText = false;
+            GameManager.instance.state = "Text";
+        }
+        else if(GameManager.instance.currentLevel < GameManager.instance.dialogue.Length)
+        {
+            GameManager.instance.currentLevel++;
+            GameManager.instance.state = "End";
+        }
     }
 }
