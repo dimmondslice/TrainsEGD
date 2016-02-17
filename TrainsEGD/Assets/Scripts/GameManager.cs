@@ -5,8 +5,8 @@ using UnityEngine.UI;
 public class GameManager : ScriptableObject {
 
 
-    string[] dialogue;
-    GameObject[] puzzleObjects;
+    public string[] dialogue;
+    public GameObject[] puzzleObjects;
     public int currentLevel = 0;
     public string state = "Writing";
     public bool writingText = false;
@@ -43,8 +43,9 @@ public class GameManager : ScriptableObject {
                                   "I wonder where this train's going?\n Hopefully somewhere more fun than home...",
                                   "Mom and Dad make me so angry sometimes...",
                                   "Will I ever go back? Will I miss home?",
-                                  "I want to go back.",
-                                  "Indirectly suggest war"};
+                                  "I want to go home . . . but I can't",
+                                  "Home is gone.",
+                                  "It was destroyed in the fighting . . . \nJust like everything else"};
         puzzleObjects = new GameObject[] {Resources.Load<GameObject>("cloud_teddybear"),
                                           Resources.Load<GameObject>("cloud_knapsack"),
                                           Resources.Load<GameObject>("cloud_house"),
@@ -63,6 +64,7 @@ public class GameManager : ScriptableObject {
             canRotate = false;
             currentObject.GetComponent<Spin>().StartCloudEnter();
         }
+        
         //textField.GetComponent<Text>().text = dialogue[currentLevel];
     }
 
