@@ -39,14 +39,15 @@ public class GameManager : ScriptableObject {
 
     public void MyAwake()
     {
-        dialogue = new string[] { "Why can't life be fun all the time?",
-                                  "I wonder where this train's going?\n Hopefully somewhere more fun than home...",
+        dialogue = new string[] { "Why can't life be fun all the time?", "",
+                                  "Hopefully this train's going somewhere more fun than home...",
                                   "Mom and Dad make me so angry sometimes...",
                                   "Will I ever go back? Will I miss home?",
                                   "I want to go home . . . but I can't",
                                   "Home is gone.",
                                   "It was destroyed in the fighting . . . \nJust like everything else"};
-        puzzleObjects = new GameObject[] {Resources.Load<GameObject>("cloud_teddybear"),
+        puzzleObjects = new GameObject[] {Resources.Load<GameObject>("Title"),
+                                          Resources.Load<GameObject>("cloud_teddybear"),
                                           Resources.Load<GameObject>("cloud_knapsack"),
                                           Resources.Load<GameObject>("cloud_house"),
                                           Resources.Load<GameObject>("cloud_train"),
@@ -60,9 +61,9 @@ public class GameManager : ScriptableObject {
         if (currentLevel < puzzleObjects.Length)
         {
             currentObject = Instantiate<GameObject>(puzzleObjects[currentLevel]);
-            currentObject.transform.position = new Vector3(550, 198, 66);
+            //currentObject.transform.position = new Vector3(550, 198, 66);
             canRotate = false;
-            currentObject.GetComponent<Spin>().StartCloudEnter();
+            //currentObject.GetComponent<Spin>().StartCloudEnter();
         }
         
         //textField.GetComponent<Text>().text = dialogue[currentLevel];
@@ -96,6 +97,7 @@ public class GameManager : ScriptableObject {
         {
             currentObject = Instantiate<GameObject>(puzzleObjects[currentLevel]);
             currentObject.transform.position = new Vector3(550, 198, 66);
+            //if(currentObject.GetComponent<Spin>())
             currentObject.GetComponent<Spin>().StartCloudEnter();
         }
     }
